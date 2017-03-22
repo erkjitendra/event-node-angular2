@@ -1,0 +1,32 @@
+var id = req.body.id;
+
+      var  Event_id = req.body.Event_id;
+      var  B_seats = req.body.B_seats;
+       
+
+
+      userModel.checkUser2event(id,Event_id,function(err,data){
+          if(err){
+              resp.send(err);
+          }else{
+              if(!data.length){
+                    userModel.addUserEventBooking(id,Event_id,req.body.B_seats,function(err,data1){
+                        if(err){
+                            resp.send(err);
+                        }else{
+                            console.log("new Booking");
+                            resp.send(data1);
+                        }
+                });               
+              }else{
+                userModel.updateUserEvent(id,Event_id,B_seats,function(err,data2){
+                    if(err){
+                            resp.send(err);
+                        }else{
+                            console.log("update Booking");
+                            resp.send(data2);
+                        }
+                });
+              }
+          }
+      })
